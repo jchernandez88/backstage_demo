@@ -50,6 +50,6 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr-publico.outputs.registry }}
         run: |
-          docker image build . -f "${{ inputs.path_to_dockerfile }}" -t "${{ env.REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}"
+          docker image build . -f packages/backend/Dockerfile -t "${{ env.REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}"
           docker push "${{ env.REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}"
           echo "full_image=${{ env.REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}"
