@@ -4,3 +4,23 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    commit-message:
+        prefix: "[actions] "
+  - package-ecosystem: "docker"
+      directory: "/"
+      schedule:
+        interval: "weekly"
+      commit-message:
+        prefix: "[docker] "
+  - package-ecosystem: "devcontainers"
+      directory: "/"
+      schedule:
+        interval: "weekly"
+      commit-message:
+        prefix: "[devcontainers] "
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "[npm] "
