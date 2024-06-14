@@ -7,6 +7,7 @@ on:
         description: "Steps"
         required: true
         default: "build"
+        type: choice
         options: ["All", "build", "deploy-create", "deploy-update"]
 jobs:
   build:
