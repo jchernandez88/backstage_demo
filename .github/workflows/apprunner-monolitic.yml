@@ -53,3 +53,43 @@ jobs:
           docker image build . -f packages/backend/Dockerfile -t "${{ env.REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}"
           docker push "${{ env.REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}"
           echo "full_image=${{ env.REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}"
+  deploy-create:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.cloud == 'deploy-create'
+    steps:
+      - name: "Configurar tag y etiquetas para ${{ github.ref }}"
+        run: |
+          if [ "$GITHUB_REF" == "refs/heads/main" ]; then
+          echo "DOCKER_TAG=latest-apprunnerM" >> $GITHUB_ENV
+          else
+          echo "DOCKER_TAG=${{ github.ref_name }}-apprunnerM" >> $GITHUB_ENV
+          fi
+      - name: "Configurar credenciales de AWS"
+        uses: aws-actions/configure-aws-credentials@e1e17a757e536f70e52b5a12b2e8d1d1c60e04ef #v2 #v2.0.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Crear archivo de configuración para AppRunner
+        run:  |
+          echo '{
+            "ServiceName": "${{ vars.IMAGE_NAME }}",
+            "SourceConfiguration": {
+                "ImageRepository": {
+                    "ImageIdentifier": "${{ vars.AWS_REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}",
+                    "ImageRepositoryType": "ECR_PUBLIC"
+                },
+                "AutoDeploymentsEnabled": false
+            },
+            "InstanceConfiguration": {
+               "Cpu": "0.25 vCPU",
+               "Memory": "0.5 GB"
+            }
+          }' > apprunner.json
+      - name: Deploy app en AWS App Runner
+        id: deploy-apprunner
+        run: |
+          aws apprunner create-service \
+            --cli-input-json file://apprunner.json
+      - name: App Runner URL
+        run: echo "App runner URL ${{ steps.deploy-apprunner.outputs.service.serviceUrl }}" 
