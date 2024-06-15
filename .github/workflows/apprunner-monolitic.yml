@@ -77,15 +77,6 @@ jobs:
             "ServiceName": "${{ vars.IMAGE_NAME }}",
             "SourceConfiguration": {
                 "ImageRepository": { 
-                   "ImageConfiguration": { 
-                      "Port": "8080",
-                      "RuntimeEnvironmentSecrets": { 
-                         "VAR_SECRET" : "string" 
-                      },
-                      "RuntimeEnvironmentVariables": { 
-                         "BASE_URL" : "${{ vars.BASE_URL}}" 
-                      }
-                   },
                    "ImageIdentifier": "${{ vars.AWS_REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}",
                    "ImageRepositoryType": "ECR_PUBLIC"
                 },
