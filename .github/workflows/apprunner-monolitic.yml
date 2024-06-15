@@ -76,9 +76,18 @@ jobs:
           echo '{
             "ServiceName": "${{ vars.IMAGE_NAME }}",
             "SourceConfiguration": {
-                "ImageRepository": {
-                    "ImageIdentifier": "${{ vars.AWS_REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}",
-                    "ImageRepositoryType": "ECR_PUBLIC"
+                "ImageRepository": { 
+                   "ImageConfiguration": { 
+                      "Port": "8080",
+                      "RuntimeEnvironmentSecrets": { 
+                         "VAR_SECRET" : "string" 
+                      },
+                      "RuntimeEnvironmentVariables": { 
+                         "BASE_URL" : "${{ vars.BASE_URL}}" 
+                      }
+                   },
+                   "ImageIdentifier": "${{ vars.AWS_REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}",
+                   "ImageRepositoryType": "ECR_PUBLIC"
                 },
                 "AutoDeploymentsEnabled": false
             },
@@ -116,9 +125,18 @@ jobs:
           echo '{
             "ServiceArn": "${{ secrets.AWS_APPRUNNER_ARN}}",
             "SourceConfiguration": {
-                "ImageRepository": {
-                    "ImageIdentifier": "${{ vars.AWS_REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}",
-                    "ImageRepositoryType": "ECR_PUBLIC"
+                "ImageRepository": { 
+                   "ImageConfiguration": { 
+                      "Port": "8080",
+                      "RuntimeEnvironmentSecrets": { 
+                         "VAR_SECRET" : "string" 
+                      },
+                      "RuntimeEnvironmentVariables": { 
+                         "BASE_URL" : "${{ vars.BASE_URL}}" 
+                      }
+                   },
+                   "ImageIdentifier": "${{ vars.AWS_REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}",
+                   "ImageRepositoryType": "ECR_PUBLIC"
                 }
             }
           }' > apprunner.json
