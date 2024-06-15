@@ -96,7 +96,7 @@ jobs:
         run: echo "App runner URL ${{ steps.deploy-apprunner.outputs.service.serviceUrl }}" 
   deploy-update:
     runs-on: ubuntu-latest
-    if: github.event.inputs.cloud == 'deploy-create'
+    if: github.event.inputs.cloud == 'deploy-update'
     steps:
       - name: "Configurar tag y etiquetas para ${{ github.ref }}"
         run: |
