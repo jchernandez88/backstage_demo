@@ -49,6 +49,7 @@ jobs:
         working-directory: ./backstage
         env:
           REGISTRY: ${{ steps.login-ecr-publico.outputs.registry }}
+          BASE_URL: ${{ vars.BASE_URL}}
         run: |
           docker image build . -f packages/backend/Dockerfile -t "${{ env.REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}"
           docker push "${{ env.REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}"
