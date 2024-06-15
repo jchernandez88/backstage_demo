@@ -119,11 +119,8 @@ jobs:
                 "ImageRepository": { 
                    "ImageConfiguration": { 
                       "Port": "8080",
-                      "RuntimeEnvironmentSecrets": { 
-                         "BASE_URL" : "${{ secrets.BASE_URL}}" 
-                      },
                       "RuntimeEnvironmentVariables": { 
-                         "VAR_STRING" : "string" 
+                         "BASE_URL" : "${{ secrets.BASE_URL}}" 
                       }
                    },
                    "ImageIdentifier": "${{ vars.AWS_REGISTRY }}/${{ vars.AWS_REGISTRY_ALIAS }}/${{ vars.IMAGE_NAME }}:${{ env.DOCKER_TAG }}",
