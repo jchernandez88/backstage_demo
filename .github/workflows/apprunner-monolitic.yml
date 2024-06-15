@@ -91,7 +91,7 @@ jobs:
         id: deploy-apprunner
         run: |
           aws apprunner create-service \
-            --cli-input-json file://apprunner.json
+            --cli-input-json file://apprunner.json  >> "$GITHUB_OUTPUT"
       - name: App Runner URL
         run: echo "App runner URL ${{ steps.deploy-apprunner.outputs.service.serviceUrl }}" 
   deploy-update:
@@ -129,9 +129,9 @@ jobs:
             }
           }' > apprunner.json
       - name: Actualizar app en AWS App Runner
+        id: deploy-apprunner
         run: |
           aws apprunner update-service \
-            --cli-input-json file://apprunner.json
-      
+            --cli-input-json file://apprunner.json >> "$GITHUB_OUTPUT"
       - name: App Runner URL
-        run: echo "App runner URL ${{ steps.deploy-apprunner.outputs.service.serviceUrl }}"
+        run: echo "App runner URL ${{ steps.deploy-apprunner.outputs.Service.ServiceUrl }}"
