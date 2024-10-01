@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout repositorio"
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #v3: v4.1.7
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 #v3: v4.2.0
       - name: "Configurar QEMU"
         uses: docker/setup-qemu-action@5927c834f5b4fdf503fca6f4c7eccda82949e1ee #v2: v3.1.0
       - name: "Configurar Docker Buildx"
